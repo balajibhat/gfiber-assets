@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { margin: 0; padding: 40px; background: white; font-family: 'Segoe UI', Arial, sans-serif; }
+  .matrix-container { width: 800px; height: 620px; position: relative; }
+  .title { text-align: center; font-size: 20px; font-weight: 700; color: #1e1e1e; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .subtitle { text-align: center; font-size: 12px; color: #888; margin-bottom: 28px; }
+
+  .chart-area {
+    position: relative;
+    width: 660px;
+    height: 460px;
+    margin: 0 auto;
+    border-left: 2px solid #333;
+    border-bottom: 2px solid #333;
+  }
+
+  .chart-area::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    border-left: 1px dashed #ddd;
+  }
+  .chart-area::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1px dashed #ddd;
+  }
+
+  .q-tl { position: absolute; top: 0; left: 0; width: 50%; height: 50%; background: #e8f5e9; opacity: 0.3; }
+  .q-tr { position: absolute; top: 0; right: 0; width: 50%; height: 50%; background: #e8f5e9; opacity: 0.15; }
+  .q-bl { position: absolute; bottom: 0; left: 0; width: 50%; height: 50%; background: #fff3e0; opacity: 0.3; }
+  .q-br { position: absolute; bottom: 0; right: 0; width: 50%; height: 50%; background: #fce4ec; opacity: 0.25; }
+
+  .point {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    transform: translate(-50%, 50%);
+    z-index: 10;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .label {
+    position: absolute;
+    z-index: 11;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .label-sub {
+    font-weight: 400;
+    font-size: 10px;
+    color: #666;
+    display: block;
+  }
+
+  /* GFiber Today - high value prop, low visibility */
+  .pt-gfiber { background: #e65100; bottom: 70%; left: 15%; }
+  .lb-gfiber { bottom: 73%; left: 18%; color: #e65100; }
+
+  /* Spectrum - low value prop, high visibility */
+  .pt-spectrum { background: #c62828; bottom: 25%; left: 80%; }
+  .lb-spectrum { bottom: 28%; left: 72%; color: #c62828; }
+
+  /* AT&T Fiber - moderate both */
+  .pt-att { background: #1565c0; bottom: 55%; left: 55%; }
+  .lb-att { bottom: 58%; left: 58%; color: #1565c0; }
+
+  /* T-Mobile - low-middle visibility, low value prop */
+  .pt-tmobile { background: #ad1457; bottom: 18%; left: 42%; }
+  .lb-tmobile { bottom: 10%; left: 45%; color: #ad1457; }
+
+  /* Starlink - moderate visibility (aggressive new entrant), low-mid value prop */
+  .pt-starlink { background: #000000; bottom: 35%; left: 35%; }
+  .lb-starlink { bottom: 38%; left: 12%; color: #000000; }
+
+  /* GFiber Target - top right */
+  .pt-target { background: #2e7d32; bottom: 85%; left: 82%; border-style: dashed; border-color: #2e7d32; background: white; }
+  .lb-target { bottom: 88%; left: 66%; color: #2e7d32; }
+
+  .axis-label-y {
+    position: absolute;
+    left: -28px;
+    top: 50%;
+    transform: rotate(-90deg);
+    font-size: 11px;
+    font-weight: 700;
+    color: #444;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .axis-label-x {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: 700;
+    color: #444;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .axis-end {
+    position: absolute;
+    font-size: 9px;
+    color: #999;
+    font-weight: 600;
+  }
+  .y-high { top: -16px; left: -4px; }
+  .y-low { bottom: -16px; left: -4px; }
+  .x-low { bottom: -16px; left: 70px; }
+  .x-high { bottom: -16px; right: -4px; }
+
+  .arrow-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 6;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="matrix-container">
+    <div class="title">GFiber Competitive Positioning</div>
+    <div class="subtitle">Value Proposition Strength vs. Non-Brand Paid Search Visibility</div>
+
+    <div style="position: relative; width: 660px; margin: 0 auto;">
+      <div class="axis-label-y" style="left: -24px; top: 45%; transform: rotate(-90deg) translateY(-50%);">VALUE PROPOSITION STRENGTH</div>
+      <div class="axis-label-x">NON-BRAND PAID SEARCH VISIBILITY</div>
+
+      <div class="chart-area">
+        <div class="q-tl"></div>
+        <div class="q-tr"></div>
+        <div class="q-bl"></div>
+        <div class="q-br"></div>
+
+        <svg class="arrow-svg" viewBox="0 0 660 460">
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#2e7d32" opacity="0.5"/>
+            </marker>
+          </defs>
+          <line x1="105" y1="142" x2="525" y2="72" stroke="#2e7d32" stroke-width="2" stroke-dasharray="6,4" opacity="0.5" marker-end="url(#arrowhead)"/>
+        </svg>
+
+        <div class="point pt-gfiber"></div>
+        <div class="point pt-spectrum"></div>
+        <div class="point pt-att"></div>
+        <div class="point pt-tmobile"></div>
+        <div class="point pt-starlink"></div>
+        <div class="point pt-target"></div>
+
+        <div class="label lb-gfiber">GFiber Today<span class="label-sub">Best product, buried message</span></div>
+        <div class="label lb-spectrum">Spectrum<span class="label-sub">Loudest presence, weakest value</span></div>
+        <div class="label lb-att">AT&T Fiber<span class="label-sub">Solid product, moderate presence</span></div>
+        <div class="label lb-tmobile">T-Mobile<span class="label-sub">Cheapest entry, weakest product</span></div>
+        <div class="label lb-starlink">Starlink<span class="label-sub">Aggressive new entrant, variable product</span></div>
+        <div class="label lb-target">GFiber Target<span class="label-sub">Strong product + visible message</span></div>
+
+        <div class="axis-end y-high">STRONG</div>
+        <div class="axis-end y-low">WEAK</div>
+        <div class="axis-end x-low">LOW</div>
+        <div class="axis-end x-high">HIGH</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
